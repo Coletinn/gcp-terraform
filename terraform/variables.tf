@@ -1,7 +1,7 @@
 variable "instance_name" {
   description = "The name of the VM instance"
   type        = string
-  default     = "terraform-micro-instance"
+  default     = "terraform-flaskapp"
 }
 
 variable "project_id" {

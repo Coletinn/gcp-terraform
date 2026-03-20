@@ -1,0 +1,15 @@
+steps:
+  - name: 'hashicorp/terraform:1.6.0'
+    dir: 'terraform'
+    args: ['init']
+
+  - name: 'hashicorp/terraform:1.6.0'
+    dir: 'terraform'
+    args: ['plan']
+
+  - name: 'hashicorp/terraform:1.6.0'
+    dir: 'terraform'
+    args: ['apply', '-auto-approve']
+
+options:
+  logging: CLOUD_LOGGING_ONLY

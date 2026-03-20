@@ -1,9 +1,18 @@
 steps:
+  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+    id: 'Ensure Registry'
+    entrypoint: 'bash'
+    args:
+      - '-c'
+      - |
+        gcloud artifacts repositories describe flask-terraform --location=us-central1 || \
+        gcloud artifacts repositories create flask-terraform --repository-format=docker --location=us-central1
+
   - name: 'gcr.io/cloud-builders/docker'
     id: 'Build Docker Image'
     args: [
       'build', 
-      '-t', 'us-central1-docker.pkg.dev/$PROJECT_ID/my-repo/flask-app:latest', 
+      '-t', 'us-central1-docker.pkg.dev/$PROJECT_ID/flask-terraform/flask-app:latest', 
       './app'
     ]
 
@@ -11,7 +20,7 @@ steps:
     id: 'Push to Registry'
     args: [
       'push', 
-      'us-central1-docker.pkg.dev/$PROJECT_ID/my-repo/flask-app:latest'
+      'us-central1-docker.pkg.dev/$PROJECT_ID/flask-terraform/flask-app:latest'
     ]
 
   - name: 'hashicorp/terraform:1.6.0'

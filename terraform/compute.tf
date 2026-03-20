@@ -12,10 +12,22 @@ resource "google_compute_instance" "vm_instance" {
 
   boot_disk {
     initialize_params {
-      image = "debian-cloud/debian-11"
+      image = "cos-cloud/cos-stable"
       size  = 30
       type  = "pd-standard"
     }
+  }
+
+  metadata = {
+    gce-container-declaration = <<-EOT
+      spec:
+        containers:
+          - name: flask-app
+            image: us-central1-docker.pkg.dev/${var.project_id}/my-repo/flask-app:latest
+            ports:
+              - containerPort: 5000
+        restartPolicy: Always
+    EOT
   }
 
   network_interface {

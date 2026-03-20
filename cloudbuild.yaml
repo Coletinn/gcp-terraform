@@ -5,6 +5,7 @@ steps:
     args:
       - '-c'
       - |
+        gcloud artifacts repositories describe flask-terraform --location=us-central1 || \
         gcloud artifacts repositories create flask-terraform --repository-format=docker --location=us-central1
 
   - name: 'gcr.io/cloud-builders/docker'

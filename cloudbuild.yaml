@@ -1,15 +1,32 @@
 steps:
+  - name: 'gcr.io/cloud-builders/docker'
+    id: 'Build Docker Image'
+    args: [
+      'build', 
+      '-t', 'us-central1-docker.pkg.dev/$PROJECT_ID/my-repo/flask-app:latest', 
+      './app'
+    ]
+
+  - name: 'gcr.io/cloud-builders/docker'
+    id: 'Push to Registry'
+    args: [
+      'push', 
+      'us-central1-docker.pkg.dev/$PROJECT_ID/my-repo/flask-app:latest'
+    ]
+
   - name: 'hashicorp/terraform:1.6.0'
+    id: 'Terraform Init'
     dir: 'terraform'
     args: ['init']
 
   - name: 'hashicorp/terraform:1.6.0'
+    id: 'Terraform Apply'
     dir: 'terraform'
-    args: ['plan']
-
-  - name: 'hashicorp/terraform:1.6.0'
-    dir: 'terraform'
-    args: ['apply', '-auto-approve']
+    args: [
+      'apply', 
+      '-var=project_id=$PROJECT_ID',
+      '-auto-approve'
+    ]
 
 options:
   logging: CLOUD_LOGGING_ONLY

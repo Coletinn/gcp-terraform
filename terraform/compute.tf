@@ -18,12 +18,17 @@ resource "google_compute_instance" "vm_instance" {
     }
   }
 
+  service_account {
+    email  = "${data.google_project.project.number}-compute@developer.gserviceaccount.com"
+    scopes = ["https://www.googleapis.com/auth/cloud-platform"]
+  }
+
   metadata = {
     gce-container-declaration = <<-EOT
       spec:
         containers:
           - name: flask-app
-            image: us-central1-docker.pkg.dev/${var.project_id}/my-repo/flask-app:latest
+            image: us-central1-docker.pkg.dev/${var.project_id}/flask-terraform/flask-app:latest
             ports:
               - containerPort: 5000
         restartPolicy: Always

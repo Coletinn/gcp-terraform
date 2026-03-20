@@ -17,9 +17,9 @@ resource "google_project_iam_member" "cloudbuild_iam_user" {
 }
 
 resource "google_project_iam_member" "compute_registry_reader" {
-  project = "gcp-devops-490722"
+  project = var.project_id
   role    = "roles/artifactregistry.reader"
-  member  = "serviceAccount:488808357087-compute@developer.gserviceaccount.com"
+  member  = "serviceAccount:${data.google_project.project.number}-compute@developer.gserviceaccount.com"
 }
 
 data "google_project" "project" {}

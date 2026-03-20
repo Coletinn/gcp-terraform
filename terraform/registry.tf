@@ -1,4 +1,4 @@
-resource "google_artifact_registry_repository" "my_repo" {
+resource "google_artifact_registry_repository" "flask-terraform" {
   location      = "us-central1"
   repository_id = "flask-terraform"
   description   = "Docker repository for Flask App"
